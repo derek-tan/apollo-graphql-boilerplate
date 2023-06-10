@@ -1,0 +1,27 @@
+{
+  "name": "apollo-graphql-template",
+  "version": "1.0.0",
+  "description": "apollo-graphql-template",
+  "type": "module",
+  "scripts": {
+    "compile": "npm run codegen && tsc",
+    "start": "npm run compile && node ./dist/index.js",
+    "codegen": "graphql-codegen --config codegen.yml"
+  },
+  "keywords": [],
+  "author": "Derek Tan",
+  "license": "",
+  "dependencies": {
+    "@apollo/server": "^4.7.3",
+    "@graphql-tools/load-files": "^7.0.0",
+    "@graphql-tools/merge": "^9.0.0",
+    "graphql": "^16.6.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "4.0.1",
+    "@graphql-codegen/typescript": "4.0.0",
+    "@graphql-codegen/typescript-resolvers": "4.0.0",
+    "@types/node": "^20.2.5",
+    "typescript": "^5.1.3"
+  }
+}
