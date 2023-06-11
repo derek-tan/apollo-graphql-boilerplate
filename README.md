@@ -1,1 +1,1 @@
-# apollo-graphql-template
+# apollo-graphql-boilerplate

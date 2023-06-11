@@ -1,23 +1,30 @@
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
-import { loadFilesSync } from '@graphql-tools/load-files';
-import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
+import { ApolloServer } from 'apollo-server-express';
+import express from 'express';
+import { applyMiddleware } from 'graphql-middleware';
+import schema from './schema/index';
+import { getAuthenticatedUser } from './lib/auth';
+import permissions from './authorization';
 
-const typeFiles = loadFilesSync('src/schema/types/**/*.graphql');
-const typeDefs = mergeTypeDefs(typeFiles)
+const startServer = async () => {
+  const app = express();
 
-const resolverFiles = loadFilesSync('src/schema/resolvers/**/*.resolvers.*');
-const resolvers = mergeResolvers(resolverFiles)
+  const server = new ApolloServer({
+    schema: applyMiddleware(
+      schema, 
+      permissions,
+    ),
+    context: ({ req }) => {
+      const user = getAuthenticatedUser(req);
+      return { user };
+    },
+  });
+  await server.start();
 
-// The ApolloServer constructor requires two parameters: 
-// schema definitions and resolvers
-const server = new ApolloServer({
-  typeDefs: typeDefs,
-  resolvers: resolvers,
-});
+  server.applyMiddleware({ app });
 
-const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
-});
+  app.listen({ port: 4000 }, () => {
+    console.log('🚀  Server ready at: localhost:4000')
+  });
+}
 
-console.log(`🚀  Server ready at: ${url}`);
+startServer();

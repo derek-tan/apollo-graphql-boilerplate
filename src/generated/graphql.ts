@@ -18,13 +18,13 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser?: Maybe<User>;
+  login?: Maybe<Scalars['String']['output']>;
 };
 
 
-export type MutationCreateUserArgs = {
+export type MutationLoginArgs = {
   email: Scalars['String']['input'];
-  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -134,7 +134,7 @@ export type ResolversParentTypes = {
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'email' | 'name'>>;
+  login?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
